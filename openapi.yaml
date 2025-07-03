@@ -943,6 +943,287 @@ paths:
                     example: No response from AI service
                   data:
                     type: object
+  /service/history/ocr:
+    get:
+      tags:
+        - service/history
+      summary: Get OCR scan history
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OCR scan history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: successfully read OCR scan history
+                  data:
+                    type: object
+                    properties:
+                      ocrScans:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: 507f1f77bcf86cd799439011
+                            scanImage:
+                              type: string
+                              format: uri
+                              example: https://storage.cargovision.app/ocr/scan/507f1f77bcf86cd799439011
+                            visualizationImage:
+                              type: string
+                              format: uri
+                              example: https://storage.cargovision.app/ocr/visualization/507f1f77bcf86cd799439011
+                            createdTime:
+                              type: string
+                              format: date-time
+                              example: "2024-01-15T10:30:00Z"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Bad Request
+                  data:
+                    type: object
+        "401":
+          description: Unauthorized - invalid or missing JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: jwt expired
+                  data:
+                    type: object
+        "404":
+          description: Service not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Service not found
+                  data:
+                    type: object
+  /service/history/illegal:
+    get:
+      tags:
+        - service/history
+      summary: Get dangerous goods scan history
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Dangerous goods scan history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: successfully read illegal scan history
+                  data:
+                    type: object
+                    properties:
+                      illegalScans:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: 507f1f77bcf86cd799439011
+                            containerID:
+                              type: string
+                              nullable: true
+                              example: CONT123456
+                            scanImage:
+                              type: string
+                              format: uri
+                              example: https://storage.cargovision.app/illegal/scan/507f1f77bcf86cd799439011
+                            visualizationImage:
+                              type: string
+                              format: uri
+                              example: https://storage.cargovision.app/illegal/visualization/507f1f77bcf86cd799439011
+                            detections:
+                              type: integer
+                              example: 3
+                            createdTime:
+                              type: string
+                              format: date-time
+                              example: "2024-01-15T10:30:00Z"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Bad Request
+                  data:
+                    type: object
+        "401":
+          description: Unauthorized - invalid or missing JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: jwt expired
+                  data:
+                    type: object
+        "404":
+          description: Service not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Service not found
+                  data:
+                    type: object
+  /service/history/category:
+    get:
+      tags:
+        - service/history
+      summary: Get item categorization scan history
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Item categorization scan history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: successfully read category scan history
+                  data:
+                    type: object
+                    properties:
+                      categoryScans:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: 507f1f77bcf86cd799439011
+                            containerID:
+                              type: string
+                              nullable: true
+                              example: CONT123456
+                            scanImage:
+                              type: string
+                              format: uri
+                              example: https://storage.cargovision.app/categorize/scan/507f1f77bcf86cd799439011
+                            visualizationImage:
+                              type: string
+                              format: uri
+                              example: https://storage.cargovision.app/categorize/visualization/507f1f77bcf86cd799439011
+                            detections:
+                              type: integer
+                              example: 5
+                            createdTime:
+                              type: string
+                              format: date-time
+                              example: "2024-01-15T10:30:00Z"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Bad Request
+                  data:
+                    type: object
+        "401":
+          description: Unauthorized - invalid or missing JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: jwt expired
+                  data:
+                    type: object
+        "404":
+          description: Service not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Service not found
+                  data:
+                    type: object
 components:
   securitySchemes:
     bearerAuth:
