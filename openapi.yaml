@@ -377,6 +377,572 @@ paths:
                     example: jwt expired
                   data:
                     type: object
+  /service/scan/ocr:
+    post:
+      tags:
+        - service/scan
+      summary: Perform OCR analysis on container X-ray images
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+              description: Raw image data (up to 50MB)
+          image/*:
+            schema:
+              type: string
+              format: binary
+              description: Image file data (up to 50MB)
+      responses:
+        "200":
+          description: OCR analysis completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created OCR analysis and visualization
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 507f1f77bcf86cd799439011
+                      scanImage:
+                        type: string
+                        format: uri
+                        example: https://storage.cargovision.app/ocr/scan/507f1f77bcf86cd799439011
+                      visualizationImage:
+                        type: string
+                        format: uri
+                        example: https://storage.cargovision.app/ocr/visualization/507f1f77bcf86cd799439011
+                      detections:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            text:
+                              type: string
+                              example: "CONTAINER ID: ABCD1234567"
+                            confidence:
+                              type: number
+                              format: float
+                              example: 0.95
+                            bbox:
+                              type: array
+                              items:
+                                type: number
+                              example: [100, 200, 300, 250]
+        "400":
+          description: Bad request - invalid file format or user not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Uploaded file is not a valid image
+                  data:
+                    type: object
+        "401":
+          description: Unauthorized - invalid or missing JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: jwt expired
+                  data:
+                    type: object
+        "500":
+          description: Internal server error - AI service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: No response from AI service
+                  data:
+                    type: object
+  /service/scan/illegal:
+    post:
+      tags:
+        - service/scan
+      summary: Detect dangerous goods in container X-ray images
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+              description: Raw image data (up to 50MB)
+          image/*:
+            schema:
+              type: string
+              format: binary
+              description: Image file data (up to 50MB)
+      responses:
+        "200":
+          description: Dangerous goods detection completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created dangerous goods detection and visualization
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 507f1f77bcf86cd799439011
+                      scanImage:
+                        type: string
+                        format: uri
+                        example: https://storage.cargovision.app/illegal/scan/507f1f77bcf86cd799439011
+                      visualizationImage:
+                        type: string
+                        format: uri
+                        example: https://storage.cargovision.app/illegal/visualization/507f1f77bcf86cd799439011
+                      detections:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            label:
+                              type: string
+                              example: "weapon"
+                            confidence:
+                              type: number
+                              format: float
+                              example: 0.87
+                            bbox:
+                              type: array
+                              items:
+                                type: number
+                              example: [150, 300, 400, 500]
+        "400":
+          description: Bad request - invalid file format or user not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Uploaded file is not a valid image
+                  data:
+                    type: object
+        "401":
+          description: Unauthorized - invalid or missing JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: jwt expired
+                  data:
+                    type: object
+        "500":
+          description: Internal server error - AI service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: No response from AI service
+                  data:
+                    type: object
+  /service/scan/illegal/{id}:
+    post:
+      tags:
+        - service/scan
+      summary: Detect dangerous goods in container X-ray images with container ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Container ID for tracking purposes
+          schema:
+            type: string
+            example: "CONT123456"
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+              description: Raw image data (up to 50MB)
+          image/*:
+            schema:
+              type: string
+              format: binary
+              description: Image file data (up to 50MB)
+      responses:
+        "200":
+          description: Dangerous goods detection completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created dangerous goods detection and visualization
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 507f1f77bcf86cd799439011
+                      scanImage:
+                        type: string
+                        format: uri
+                        example: https://storage.cargovision.app/illegal/scan/507f1f77bcf86cd799439011
+                      visualizationImage:
+                        type: string
+                        format: uri
+                        example: https://storage.cargovision.app/illegal/visualization/507f1f77bcf86cd799439011
+                      detections:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            label:
+                              type: string
+                              example: "weapon"
+                            confidence:
+                              type: number
+                              format: float
+                              example: 0.87
+                            bbox:
+                              type: array
+                              items:
+                                type: number
+                              example: [150, 300, 400, 500]
+        "400":
+          description: Bad request - invalid file format or user not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Uploaded file is not a valid image
+                  data:
+                    type: object
+        "401":
+          description: Unauthorized - invalid or missing JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: jwt expired
+                  data:
+                    type: object
+        "500":
+          description: Internal server error - AI service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: No response from AI service
+                  data:
+                    type: object
+  /service/scan/categorize:
+    post:
+      tags:
+        - service/scan
+      summary: Categorize items in container X-ray images
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+              description: Raw image data (up to 50MB)
+          image/*:
+            schema:
+              type: string
+              format: binary
+              description: Image file data (up to 50MB)
+      responses:
+        "200":
+          description: Item categorization completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created item categorization and visualization
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 507f1f77bcf86cd799439011
+                      scanImage:
+                        type: string
+                        format: uri
+                        example: https://storage.cargovision.app/categorize/scan/507f1f77bcf86cd799439011
+                      visualizationImage:
+                        type: string
+                        format: uri
+                        example: https://storage.cargovision.app/categorize/visualization/507f1f77bcf86cd799439011
+                      detections:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            category:
+                              type: string
+                              example: "electronics"
+                            confidence:
+                              type: number
+                              format: float
+                              example: 0.92
+                            bbox:
+                              type: array
+                              items:
+                                type: number
+                              example: [200, 150, 350, 400]
+        "400":
+          description: Bad request - invalid file format or user not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Uploaded file is not a valid image
+                  data:
+                    type: object
+        "401":
+          description: Unauthorized - invalid or missing JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: jwt expired
+                  data:
+                    type: object
+        "500":
+          description: Internal server error - AI service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: No response from AI service
+                  data:
+                    type: object
+  /service/scan/categorize/{id}:
+    post:
+      tags:
+        - service/scan
+      summary: Categorize items in container X-ray images with container ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Container ID for tracking purposes
+          schema:
+            type: string
+            example: "CONT123456"
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+              description: Raw image data (up to 50MB)
+          image/*:
+            schema:
+              type: string
+              format: binary
+              description: Image file data (up to 50MB)
+      responses:
+        "200":
+          description: Item categorization completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully created item categorization and visualization
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 507f1f77bcf86cd799439011
+                      scanImage:
+                        type: string
+                        format: uri
+                        example: https://storage.cargovision.app/categorize/scan/507f1f77bcf86cd799439011
+                      visualizationImage:
+                        type: string
+                        format: uri
+                        example: https://storage.cargovision.app/categorize/visualization/507f1f77bcf86cd799439011
+                      detections:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            category:
+                              type: string
+                              example: "electronics"
+                            confidence:
+                              type: number
+                              format: float
+                              example: 0.92
+                            bbox:
+                              type: array
+                              items:
+                                type: number
+                              example: [200, 150, 350, 400]
+        "400":
+          description: Bad request - invalid file format or user not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Uploaded file is not a valid image
+                  data:
+                    type: object
+        "401":
+          description: Unauthorized - invalid or missing JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: jwt expired
+                  data:
+                    type: object
+        "500":
+          description: Internal server error - AI service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: No response from AI service
+                  data:
+                    type: object
 components:
   securitySchemes:
     bearerAuth:

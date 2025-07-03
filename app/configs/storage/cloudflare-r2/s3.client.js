@@ -11,9 +11,10 @@ const bucket = r2.bucket(process.env.R2_BUCKET);
 
 bucket.provideBucketPublicUrl(process.env.R2_PUBLIC_URL);
 
-const uploadPDF = async (file, directory) => {
-    const upload = await bucket.uploadFile(file, directory, undefined, 'application/pdf');
+const uploadImage = async (buffer, file, contentType = 'image/jpeg') => {
+    const upload = await bucket.upload(buffer, file, undefined, contentType);
+    
     return upload.publicUrls[0];
 };
 
-module.exports = uploadPDF;
+module.exports = uploadImage;
