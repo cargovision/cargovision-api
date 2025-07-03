@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="none" />
+  <meta name="googlebot" content="none" />
+  <title>CargoVision Core API - Swagger UI</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.43.0/swagger-ui.css" >
+  <style>
+    html
+    {
+      box-sizing: border-box;
+      overflow: -moz-scrollbars-vertical;
+      overflow-y: scroll;
+    }
+    *,
+    *:before,
+    *:after
+    {
+      box-sizing: inherit;
+    }
+    body {
+      margin:0;
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+<div id="swagger-ui"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.43.0/swagger-ui-bundle.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.43.0/swagger-ui-standalone-preset.js"> </script>
+<script>
+window.onload = function() {
+  var spec = {"openapi": "3.0.0", "info": {"title": "CargoVision Core API", "description": "API backend for CargoVision, an AI-powered platform that analyzes container X-ray images to detect structural damage and illegal items, enabling real-time anomaly detection and automated inspection reporting.", "version": "1.0.0"}, "servers": [{"url": "https://api.cargovision.app", "description": "Production Server"}, {"url": "http://localhost:8080", "description": "Local Development Server"}], "paths": {"/user/auth/email/verify": {"post": {"tags": ["user/auth/email"], "summary": "Verify email registration", "requestBody": {"required": true, "content": {"application/json": {"schema": {"type": "object", "properties": {"email": {"type": "string", "format": "email", "example": "user@example.com"}}}}}}, "responses": {"200": {"description": "Email sent.", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "success"}, "message": {"type": "string", "example": "Email sent. Please check yout inbox"}, "data": {"type": "object", "properties": {"verificationCheck": {"type": "string", "format": "URL", "example": "https://api.cargovision.app/user/auth/email/activation?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRldkBmaXRmbG8uc2l0ZSIsImlzVmVyaWZpZWQiOmZhbHNlLCJpYXQiOjE3NDE5MTY3MzEsImV4cCI6MTc0MTkzMTEzMX0.0pilDYxCLIuFT1JG9wZ2TGFzgUIhwTMbDOQ6YzUknJs"}}}}}}}}, "400": {"description": "Email already verified or requesting verification too frequent", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "error"}, "message": {"type": "string", "example": "Email already verified"}, "data": {"type": "object"}}}}}}}}}, "/user/auth/email/activation": {"get": {"tags": ["user/auth/email"], "summary": "Check email verification status", "parameters": [{"name": "token", "in": "query", "required": true, "description": "JWT token obtained from /verify request", "schema": {"type": "string"}}], "responses": {"200": {"description": "User is verified", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "success"}, "message": {"type": "string", "example": "User is verified"}, "data": {"type": "object", "properties": {"email": {"type": "string", "format": "email", "example": "dev@cargovision.app"}, "isVerified": {"type": "boolean", "example": true}}}}}}}}, "400": {"description": "Verification Link Expired or User not found", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "error"}, "message": {"type": "string", "example": "Verification Link Expired. Please request email verification again."}, "data": {"type": "object", "properties": {"email": {"type": "string", "format": "email", "example": "dev@cargovision.app"}, "isVerified": {"type": "boolean", "example": false}}}}}}}}}}}, "/user/auth/email/register": {"post": {"tags": ["user/auth/email"], "summary": "Register a verified email", "requestBody": {"required": true, "content": {"application/json": {"schema": {"type": "object", "properties": {"email": {"type": "string", "format": "email", "example": "user@example.com"}, "password": {"type": "string", "format": "password", "example": "password123"}}}}}}, "responses": {"200": {"description": "User is registered", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "success"}, "message": {"type": "string", "example": "Email registration successful"}, "data": {"type": "object", "properties": {"email": {"type": "string", "format": "email", "example": "dev@cargovision.app"}, "token": {"type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRldkBmaXRmbG8uc2l0ZSIsImF1dGgiOiJlbWFpbCIsImlhdCI6MTc0MTkxNjc3NiwiZXhwIjoxNzQxOTMxMTc2fQ.kvBAlh25YCECL1X4qn5ye2U8jMRhl_alOAd98rz22JY"}}}}}}}}, "400": {"description": "Email is not yet verified or already registered", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "error"}, "message": {"type": "string", "example": "User is registered"}, "data": {"type": "object"}}}}}}}}}, "/user/auth/email/login": {"post": {"tags": ["user/auth/email"], "summary": "Login a user", "requestBody": {"required": true, "content": {"application/json": {"schema": {"type": "object", "properties": {"email": {"type": "string", "format": "email", "example": "user@example.com"}, "password": {"type": "string", "format": "password", "example": "password123"}}}}}}, "responses": {"200": {"description": "User logged in successfully", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "success"}, "message": {"type": "string", "example": "Login Success"}, "data": {"type": "object", "properties": {"email": {"type": "string", "format": "email", "example": "dev@cargovision.app"}, "token": {"type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRldkBmaXRmbG8uc2l0ZSIsImF1dGgiOiJlbWFpbCIsImlhdCI6MTc0MTkxNjc3NiwiZXhwIjoxNzQxOTMxMTc2fQ.kvBAlh25YCECL1X4qn5ye2U8jMRhl_alOAd98rz22JY"}}}}}}}}, "401": {"description": "Unauthorized, invalid credentials", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "error"}, "message": {"type": "string", "example": "Unauthorized, invalid credentials"}, "data": {"type": "object"}}}}}}}}}, "/user/auth/email/forgot-password": {"post": {"tags": ["user/auth/email"], "summary": "Reset forgotten password", "requestBody": {"required": true, "content": {"application/json": {"schema": {"type": "object", "properties": {"email": {"type": "string", "format": "email", "example": "user@example.com"}}}}}}, "responses": {"200": {"description": "Email sent", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "success"}, "message": {"type": "string", "example": "Email sent. Please check yout inbox"}, "data": {"type": "object"}}}}}}, "400": {"description": "Email not found", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "error"}, "message": {"type": "string", "example": "Email not found"}, "data": {"type": "object"}}}}}}}}}, "/user/auth/email/change-password": {"put": {"tags": ["user/auth/email"], "summary": "Change forgotten password after the email verified", "requestBody": {"required": true, "content": {"application/json": {"schema": {"type": "object", "properties": {"password": {"type": "string", "format": "password", "example": "newpass"}, "token": {"type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRldkBmaXRmbG8uc2l0ZSIsImF1dGgiOiJlbWFpbCIsImlhdCI6MTc0MTkxNjc3NiwiZXhwIjoxNzQxOTMxMTc2fQ.kvBAlh25YCECL1X4qn5ye2U8jMRhl_alOAd98rz22JY"}}}}}}, "responses": {"200": {"description": "User password changed", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "success"}, "message": {"type": "string", "example": "User password changed"}, "data": {"type": "object"}}}}}}, "400": {"description": "Password Change Token Expired", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "error"}, "message": {"type": "string", "example": "Password Change Token Expired. Please request password reset again."}, "data": {"type": "object"}}}}}}}}}, "/user/auth/refresh-token": {"get": {"tags": ["user/auth"], "summary": "Refresh authentication token", "security": [{"bearerAuth": []}], "responses": {"200": {"description": "Token refreshed successfully", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "success"}, "message": {"type": "string", "example": "Token refreshed successfully"}, "data": {"type": "object", "properties": {"token": {"type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRldkBmaXRmbG8uc2l0ZSIsImF1dGgiOiJlbWFpbCIsImlhdCI6MTc0MTkxNjc3NiwiZXhwIjoxNzQxOTMxMTc2fQ.kvBAlh25YCECL1X4qn5ye2U8jMRhl_alOAd98rz22JY"}}}}}}}}, "401": {"description": "JWT token expired", "content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "example": "error"}, "message": {"type": "string", "example": "jwt expired"}, "data": {"type": "object"}}}}}}}}}}, "components": {"securitySchemes": {"bearerAuth": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"}}}};
+  // Build a system
+  const ui = SwaggerUIBundle({
+    spec: spec,
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  })
+  window.ui = ui
+}
+</script>
+</body>
+</html>
