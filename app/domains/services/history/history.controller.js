@@ -16,6 +16,11 @@ const ocr = async (req, res) => {
             id: scan._id,
             scanImage: scan.scanImage,
             visualizationImage: scan.visualizationImage,
+            detections: scan.detections.map(detection => ({
+                class_name: detection.class_name,
+                confidence: detection.confidence,
+                ocr_text: detection.ocr_text || null
+            })),
             createdTime: scan.createdTime
         }));
         
@@ -53,7 +58,10 @@ const illegal = async (req, res) => {
             containerID: scan.containerID || null,
             scanImage: scan.scanImage,
             visualizationImage: scan.visualizationImage,
-            detections: scan.detections.length,
+            detections: scan.detections.map(detection => ({
+                class_name: detection.class_name,
+                confidence: detection.confidence
+            })),
             createdTime: scan.createdTime
         }));
         
@@ -91,7 +99,10 @@ const category = async (req, res) => {
             containerID: scan.containerID || null,
             scanImage: scan.scanImage,
             visualizationImage: scan.visualizationImage,
-            detections: scan.detections.length,
+            detections: scan.detections.map(detection => ({
+                class_name: detection.class_name,
+                confidence: detection.confidence
+            })),
             createdTime: scan.createdTime
         }));
         

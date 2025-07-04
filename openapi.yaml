@@ -420,11 +420,11 @@ paths:
                       scanImage:
                         type: string
                         format: uri
-                        example: https://storage.cargovision.app/ocr/scan/507f1f77bcf86cd799439011
+                        example: https://cdn.cargovision.app/ocr/scan/507f1f77bcf86cd799439011
                       visualizationImage:
                         type: string
                         format: uri
-                        example: https://storage.cargovision.app/ocr/visualization/507f1f77bcf86cd799439011
+                        example: https://cdn.cargovision.app/ocr/visualization/507f1f77bcf86cd799439011
                       detections:
                         type: array
                         items:
@@ -530,11 +530,11 @@ paths:
                       scanImage:
                         type: string
                         format: uri
-                        example: https://storage.cargovision.app/illegal/scan/507f1f77bcf86cd799439011
+                        example: https://cdn.cargovision.app/illegal/scan/507f1f77bcf86cd799439011
                       visualizationImage:
                         type: string
                         format: uri
-                        example: https://storage.cargovision.app/illegal/visualization/507f1f77bcf86cd799439011
+                        example: https://cdn.cargovision.app/illegal/visualization/507f1f77bcf86cd799439011
                       detections:
                         type: array
                         items:
@@ -648,11 +648,11 @@ paths:
                       scanImage:
                         type: string
                         format: uri
-                        example: https://storage.cargovision.app/illegal/scan/507f1f77bcf86cd799439011
+                        example: https://cdn.cargovision.app/illegal/scan/507f1f77bcf86cd799439011
                       visualizationImage:
                         type: string
                         format: uri
-                        example: https://storage.cargovision.app/illegal/visualization/507f1f77bcf86cd799439011
+                        example: https://cdn.cargovision.app/illegal/visualization/507f1f77bcf86cd799439011
                       detections:
                         type: array
                         items:
@@ -758,11 +758,11 @@ paths:
                       scanImage:
                         type: string
                         format: uri
-                        example: https://storage.cargovision.app/categorize/scan/507f1f77bcf86cd799439011
+                        example: https://cdn.cargovision.app/categorize/scan/507f1f77bcf86cd799439011
                       visualizationImage:
                         type: string
                         format: uri
-                        example: https://storage.cargovision.app/categorize/visualization/507f1f77bcf86cd799439011
+                        example: https://cdn.cargovision.app/categorize/visualization/507f1f77bcf86cd799439011
                       detections:
                         type: array
                         items:
@@ -876,11 +876,11 @@ paths:
                       scanImage:
                         type: string
                         format: uri
-                        example: https://storage.cargovision.app/categorize/scan/507f1f77bcf86cd799439011
+                        example: https://cdn.cargovision.app/categorize/scan/507f1f77bcf86cd799439011
                       visualizationImage:
                         type: string
                         format: uri
-                        example: https://storage.cargovision.app/categorize/visualization/507f1f77bcf86cd799439011
+                        example: https://cdn.cargovision.app/categorize/visualization/507f1f77bcf86cd799439011
                       detections:
                         type: array
                         items:
@@ -971,22 +971,38 @@ paths:
                         type: array
                         items:
                           type: object
-                          properties:
-                            id:
-                              type: string
-                              example: 507f1f77bcf86cd799439011
-                            scanImage:
-                              type: string
-                              format: uri
-                              example: https://storage.cargovision.app/ocr/scan/507f1f77bcf86cd799439011
-                            visualizationImage:
-                              type: string
-                              format: uri
-                              example: https://storage.cargovision.app/ocr/visualization/507f1f77bcf86cd799439011
-                            createdTime:
-                              type: string
-                              format: date-time
-                              example: "2024-01-15T10:30:00Z"
+                                                     properties:
+                             id:
+                               type: string
+                               example: 507f1f77bcf86cd799439011
+                             scanImage:
+                               type: string
+                               format: uri
+                               example: https://cdn.cargovision.app/ocr/scan/507f1f77bcf86cd799439011
+                             visualizationImage:
+                               type: string
+                               format: uri
+                               example: https://cdn.cargovision.app/ocr/visualization/507f1f77bcf86cd799439011
+                             detections:
+                               type: array
+                               items:
+                                 type: object
+                                 properties:
+                                   class_name:
+                                     type: string
+                                     example: "ID"
+                                   confidence:
+                                     type: number
+                                     format: float
+                                     example: 0.95
+                                   ocr_text:
+                                     type: string
+                                     nullable: true
+                                     example: "ABCD1234567"
+                             createdTime:
+                               type: string
+                               format: date-time
+                               example: "2024-01-15T10:30:00Z"
         "400":
           description: Bad request
           content:
@@ -1071,15 +1087,24 @@ paths:
                             scanImage:
                               type: string
                               format: uri
-                              example: https://storage.cargovision.app/illegal/scan/507f1f77bcf86cd799439011
-                            visualizationImage:
-                              type: string
-                              format: uri
-                              example: https://storage.cargovision.app/illegal/visualization/507f1f77bcf86cd799439011
-                            detections:
-                              type: integer
-                              example: 3
-                            createdTime:
+                              example: https://cdn.cargovision.app/illegal/scan/507f1f77bcf86cd799439011
+                                                         visualizationImage:
+                               type: string
+                               format: uri
+                               example: https://cdn.cargovision.app/illegal/visualization/507f1f77bcf86cd799439011
+                             detections:
+                               type: array
+                               items:
+                                 type: object
+                                 properties:
+                                   class_name:
+                                     type: string
+                                     example: "weapon"
+                                   confidence:
+                                     type: number
+                                     format: float
+                                     example: 0.87
+                             createdTime:
                               type: string
                               format: date-time
                               example: "2024-01-15T10:30:00Z"
@@ -1167,15 +1192,24 @@ paths:
                             scanImage:
                               type: string
                               format: uri
-                              example: https://storage.cargovision.app/categorize/scan/507f1f77bcf86cd799439011
-                            visualizationImage:
-                              type: string
-                              format: uri
-                              example: https://storage.cargovision.app/categorize/visualization/507f1f77bcf86cd799439011
-                            detections:
-                              type: integer
-                              example: 5
-                            createdTime:
+                              example: https://cdn.cargovision.app/categorize/scan/507f1f77bcf86cd799439011
+                                                         visualizationImage:
+                               type: string
+                               format: uri
+                               example: https://cdn.cargovision.app/categorize/visualization/507f1f77bcf86cd799439011
+                             detections:
+                               type: array
+                               items:
+                                 type: object
+                                 properties:
+                                   class_name:
+                                     type: string
+                                     example: "electronics"
+                                   confidence:
+                                     type: number
+                                     format: float
+                                     example: 0.92
+                             createdTime:
                               type: string
                               format: date-time
                               example: "2024-01-15T10:30:00Z"
